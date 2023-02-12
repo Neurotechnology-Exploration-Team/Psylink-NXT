@@ -1,0 +1,39 @@
+*.pyc
+__pycache__
+.idea
+extra
+venv
+www
+
+# Calibrator tool
+records.csv
+save_*
+python/save
+python/save_*
+
+# TensorFlow
+model.tf
+model.tf.labels
+
+# KiCad
+*-cache.lib
+*.sch-bak
+*.kicad_pcb-bak
+_autosave-*.sch
+_autosave-*.kicad_pcb
+*.pro
+fp-info-cache
+schematics/*.svg
+schematics/*.png
+schematics/*.net
+schematics/fp-lib-table
+
+# GNURadio
+gnuradio/*/*_0.py
+gnuradio/*/plot_signals.py
+
+# Python
+
+/python/.idea/*
+/python/TestAlex/
+/python/venv/
