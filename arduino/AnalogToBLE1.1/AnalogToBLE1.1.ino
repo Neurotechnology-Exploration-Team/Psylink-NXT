@@ -1,3 +1,5 @@
+#include <Arduino_BMI270_BMM150.h>
+
 // Dependencies: (Install in ArduinoIDE by clicking on Tools -> Manage Libraries...)
 // 1. ArduinoBLE
 // 2. Arduino_LSM9DS1
@@ -7,7 +9,7 @@
 #define USE_INTERRUPT_TIMER false
 
 #include <ArduinoBLE.h>       // Bluetooth Low Energy
-#include <Arduino_LSM9DS1.h>  // Inertial Measurement Unit
+  // Inertial Measurement Unit
 #if USE_INTERRUPT_TIMER == true
 #include "NRF52_MBED_TimerInterrupt.h"
 #endif
@@ -80,19 +82,21 @@ void setup() {
     digitalWrite(LEDR, LOW); // Turn on red LED
     while (1);
   }
+
   #if USE_INTERRUPT_TIMER == true
   if (!samplingTimer.attachInterruptInterval(SAMPLE_INTERVAL_uS, samplingTimerHandler)) {
-    digitalWrite(LEDR, HIGH); // Turn on red LED
+    digitalWrite(LEDR, HIGH); // Turn off red LED
     digitalWrite(LEDG, LOW); // Turn on green LED
     while (1);
   }
   samplingTimer.stopTimer();
   #endif
+
   if (!IMU.begin()) {
     digitalWrite(LEDR, LOW); // Turn on red LED
-    digitalWrite(LEDG, HIGH); // Turn on green LED
+    digitalWrite(LEDG, HIGH); // Turn off green LED
     while (1);
-  }
+  }//*/
   BLE.setLocalName("PsyLink");
   BLE.setAdvertisedService(sensorService);
   sensorService.addCharacteristic(sensorCharacteristic);
@@ -109,6 +113,7 @@ void setup() {
 }
 
 unsigned long nextFrame = 0;
+
 void loop() {
   #if USE_INTERRUPT_TIMER == true
   if (doSampling) {
@@ -249,3 +254,4 @@ void bleDisconnectHandler(BLEDevice central) {
   analogWrite(LEDB, 255);
   bleConnected = false;
 }
+//*/
