@@ -27,7 +27,7 @@ axes = [[axa,[]],[axb,[]],[axc,[]],[axd,[]]]
 bled.channels = channels + IMU_CHANNELS
 bled.emg_channels = 4
 emgShit = [[0,0,0,0],0]
-#def loopBLE(bleb, bled, emgShit, xs, axes):
+def loopBLE(bleb, bled, emgShit, xs, axes):
     print("Starting bleb/bled loop")
     lastT = time.time()
     while(True):
@@ -55,7 +55,7 @@ emgShit = [[0,0,0,0],0]
         curEmg[0][2] /= curEmg[1]
         curEmg[0][3] /= curEmg[1]
         for j in range(4):
-            axes[j][1].append(curEmg[j][0])
+            axes[j][1].append(curEmg[0][j])
             axes[j][1] = axes[j][1][-20:]
         for ax in axes:
             ax[0].clear()

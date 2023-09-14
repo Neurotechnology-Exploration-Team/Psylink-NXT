@@ -12,7 +12,7 @@ capture = "rtsp://10.118.34.26"
 #capture webcam
 #capture =
 
-# For webcam input:
+
 cap = cv2.VideoCapture(capture)
 with mp_hands.Hands(
     model_complexity=0,
@@ -47,16 +47,15 @@ with mp_hands.Hands(
             
             #print(str(type(landmark.x)) + "     " + str(landmark.x))
        # print(outList)
-        while(true):
-            pass
-      #  mp_drawing.draw_landmarks(
-      #      image,
-      #      hand_landmarks,
-      #      mp_hands.HAND_CONNECTIONS,
-      #      mp_drawing_styles.get_default_hand_landmarks_style(),
-      #      mp_drawing_styles.get_default_hand_connections_style())
+        
+        mp_drawing.draw_landmarks(
+            image,
+            hand_landmarks,
+            mp_hands.HAND_CONNECTIONS,
+            mp_drawing_styles.get_default_hand_landmarks_style(),
+            mp_drawing_styles.get_default_hand_connections_style())
     # Flip the image horizontally for a selfie-view display.
-   # cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
+    cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
     if cv2.waitKey(5) & 0xFF == 27:
       break
 cap.release()
