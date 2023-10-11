@@ -26,8 +26,8 @@ xs = []
 axes = [[axa,[]],[axb,[]],[axc,[]],[axd,[]]]
 bled.channels = channels + IMU_CHANNELS
 bled.emg_channels = 4
-emgShit = [[0,0,0,0],0]
-def loopBLE(bleb, bled, emgShit, xs, axes):
+emgData = [[0,0,0,0],0]
+def loopBLE(bleb, bled, emgData, xs, axes):
     print("Starting bleb/bled loop")
     lastT = time.time()
     while(True):
@@ -39,17 +39,17 @@ def loopBLE(bleb, bled, emgShit, xs, axes):
                    # print(bledPack)
                 curSamples = bledPack["samples"]
                 for sample in curSamples:
-                    emgShit[0][0] += abs(sample[0])
-                    emgShit[0][1] += abs(sample[1])
-                    emgShit[0][2] += abs(sample[2])
-                    emgShit[0][3] += abs(sample[3])
-                    emgShit[1] += 1
+                    emgData[0][0] += abs(sample[0])
+                    emgData[0][1] += abs(sample[1])
+                    emgData[0][2] += abs(sample[2])
+                    emgData[0][3] += abs(sample[3])
+                    emgData[1] += 1
 
         xs.append(time.time())
         xs = xs[-20:]
         
-        curEmg = emgShit
-        emgShit = [[0,0,0,0],0]
+        curEmg = emgData
+        emgData = [[0,0,0,0],0]
         curEmg[0][0] /= curEmg[1]
         curEmg[0][1] /= curEmg[1]
         curEmg[0][2] /= curEmg[1]
@@ -68,9 +68,9 @@ def loopBLE(bleb, bled, emgShit, xs, axes):
 
 #TODO: Thread loopBLE
 #loopBLE(bleb, bled)
-#ani = pltAnim.FuncAnimation(fig, loopBLE, fargs=(bleb, bled, emgShit, xs, axes), interval=1000, repeat=False)
+#ani = pltAnim.FuncAnimation(fig, loopBLE, fargs=(bleb, bled, emgData, xs, axes), interval=1000, repeat=False)
 plt.show(block=False)
-#loopBLE(bleb, bled, emgShit, xs, axes)
+#loopBLE(bleb, bled, emgData, xs, axes)
 
 print("Starting bleb/bled loop")
 lastT = time.time()
@@ -83,17 +83,17 @@ while(True):
                    # print(bledPack)
             curSamples = bledPack["samples"]
             for sample in curSamples:
-                emgShit[0][0] += abs(sample[0])
-                emgShit[0][1] += abs(sample[1])
-                emgShit[0][2] += abs(sample[2])
-                emgShit[0][3] += abs(sample[3])
-                emgShit[1] += 1
+                emgData[0][0] += abs(sample[0])
+                emgData[0][1] += abs(sample[1])
+                emgData[0][2] += abs(sample[2])
+                emgData[0][3] += abs(sample[3])
+                emgData[1] += 1
     
     xs.append(time.time())
     xs = xs[-20:]
         
-    curEmg = emgShit
-    emgShit = [[0,0,0,0],0]
+    curEmg = emgData
+    emgData = [[0,0,0,0],0]
     curEmg[0][0] /= curEmg[1]
     curEmg[0][1] /= curEmg[1]
     curEmg[0][2] /= curEmg[1]

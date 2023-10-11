@@ -34,10 +34,10 @@ with mp_hands.Hands(
     results = hands.process(image)
 
     # Draw the hand annotations on the image.
-    image.flags.writeable = True
-    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    #image.flags.writeable = True
+    #image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
     if results.multi_hand_world_landmarks:
-      outList = [[] for i in range(21)]
+      outList = [[]]*21
       for hand_landmarks in results.multi_hand_world_landmarks:
         #print(str(type(hand_landmarks)) + "    " + str(hand_landmarks))
         f = open("mp_data.csv", 'w')

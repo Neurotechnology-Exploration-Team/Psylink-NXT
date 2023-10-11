@@ -5,7 +5,7 @@ import time
 import matplotlib.pyplot as plt
 import matplotlib.animation as pltAnim
 #Manually set channel count
-channels = 4
+channels = 8
 
 bleb = BLEGATTBackend()
 bled = BLEDecoder()
@@ -18,10 +18,10 @@ bleb.thread_start()
 #channels =  bled.decode_channel_count();
 
 bled.channels = channels + IMU_CHANNELS
-bled.emg_channels = 4
+bled.emg_channels = channels 
 
 def loopBLE(bleb, bled):
-    emgShit = [[0,0,0,0], 0]
+    emgData = [[0]* bled.channels, 0]
     print("Starting bleb/bled loop")
     lastT = time.time()
     while(True):
@@ -30,23 +30,18 @@ def loopBLE(bleb, bled):
         #print(blebPipe, end=" |:| ")
             bledPack = bled.decode_packet(blebPipe)
             if(not bledPack["is_duplicate"]):
-               # print(bledPack)
                 curSamples = bledPack["samples"]
                 for sample in curSamples:
-                    emgShit[0][0] += abs(sample[0])
-                    emgShit[0][1] += abs(sample[1])
-                    emgShit[0][2] += abs(sample[2])
-                    emgShit[0][3] += abs(sample[3])
-                    emgShit[1] += 1
-        if(emgShit[1] == 0):
+                    for chan_ind in range(bled.channels):
+                        emgData[0][chan_ind] += abs(sample[chan_ind])
+                    emgData[1] += 1
+        if(emgData[1] == 0):
             print("0 Packets read")
             continue
-        emgShit[0][0] /= emgShit[1]
-        emgShit[0][1] /= emgShit[1]
-        emgShit[0][2] /= emgShit[1]
-        emgShit[0][3] /= emgShit[1]
-        print(emgShit[0])
-        emgShit = [[0,0,0,0],0]
+        for chan_ind in range(bled.channels):
+            emgData[0][chan_ind] /= emgData[1]
+        print(emgData[0])
+        emgData = [[0] * bled.channels,0]
         lastT = time.time()
 	        #print(bledPack)
 
