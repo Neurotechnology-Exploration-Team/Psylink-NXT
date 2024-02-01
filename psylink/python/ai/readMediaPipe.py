@@ -40,7 +40,7 @@ with mp_hands.Hands(
       outList = [[]]*21
       for hand_landmarks in results.multi_hand_world_landmarks:
         #print(str(type(hand_landmarks)) + "    " + str(hand_landmarks))
-        f = open("mp_data.csv", 'w')
+        f = open("ai/mp_data.csv", 'w')
         f.write(str(datetime.now()))
         for landmark in hand_landmarks.landmark:
              f.write(',')
